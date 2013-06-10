@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Toogles: Awesome Goggles for YouTube</title>
+    <meta name="description" content="Toogles is a pair of awesome goggles for YouTube. It's a super fast and clean alternative interface for YouTube so that you can watch and search YouTube without all the bulk that comes with YouTube.com."/>
+    <meta name="viewport" content="width=device-width"/>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400' rel='stylesheet' type='text/css'>
+
+    <!-- build:css styles/styles.css -->
+    <link rel="stylesheet" href="styles/foundation.css"/>
+    <link rel="stylesheet" href="styles/font-awesome.min.css"/>
+    <link rel="stylesheet" href="styles/toogles.css"/>
+    <!-- endbuild -->
+
+  </head>
+  <body class="ng-cloak" ng-app="tooglesApp">
+
+    <!--[if lt IE 8]>
+      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="scripts/vendor/es5-shim.min.js"></script>
+      <script src="scripts/vendor/json3.min.js"></script>
+    <![endif]-->
+
+    <div class="container row" ng-view></div>
+
+    <script src="http://www.youtube.com/iframe_api"></script>
+
+    <!-- build:js scripts/scripts.js -->
+    <script src="scripts/vendor/angular.min.js"></script>
+    <script src="scripts/vendor/angular-sanitize.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/list.js"></script>
+    <script src="scripts/controllers/view.js"></script>
+    <script src="scripts/services/youtube.js"></script>
+    <script src="scripts/services/socket.js"></script>
+    <script src="scripts/filters/htmlify.js"></script>
+    <script src="scripts/directives/scroll.js"></script>
+    <!-- endbuild -->
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-6322775-22']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </body>
+</html>
