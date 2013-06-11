@@ -8,7 +8,8 @@ tooglesApp.controller('ViewCtrl', ['$scope', '$routeParams', '$location', 'youtu
   $scope.showRelated = false;
   $scope.section = $location.path().split('/')[1];
   $scope.videoTab = $scope.section === 'view' ? 'Related' : 'Playlist';
-
+  $scope.streaming_text = 'Send to RaspberryPi'
+  $scope.streaming = false;
   window.viewCallback = function(data) {
     if ($scope.section === 'view') {
       $scope.video = data.entry;
@@ -36,8 +37,17 @@ tooglesApp.controller('ViewCtrl', ['$scope', '$routeParams', '$location', 'youtu
     }
     $scope.showRelated = true;
   }
-  $scope.stream = function() {
-    socket.emit('video', {action:'play', video_id:$routeParams.id});
+  $scope.streaming_toggle = function() {
+    if (!$scope.streaming){
+        socket.emit('video', {action:'play', video_id:$routeParams.id});
+        $scope.streaming = true;
+        $scope.streaming_text = 'Pause/Play';
+    }
+    socket.emit('video', {action:'pause', video_id:$routeParams.id});
+  }
+  $scope.stop_stream = function() {
+      socket.emit('video', {action:'quit', video_id:$routeParams.id})
+      $scope.streaming = false;
   }
   $scope.getLink = function(video, index) {
     if ($scope.section == 'view') {

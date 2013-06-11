@@ -21,7 +21,8 @@
       <div class="rating">
         <div class="like" style="width: {{100 * (video.gd$rating.average / 5)}}%;"></div>
       </div>
-      <button class="button expand" ng-click="stream()">Send to RPi</button>
+      <button class="button expand" ng-click="streaming_toggle()">{{streaming_text}}</button>
+      <button class="button expand" ng-show="streaming" ng-click="stop_stream()">Stop Streaming</button>
       <ul>
         <li><i class="icon-user"></i> <a href="#/user/{{video.author[0].uri.$t.split('/').pop()}}">{{video.author[0].name.$t}}</a></li>
         <li><i class="icon-eye-open"></i> {{video.yt$statistics.viewCount | number:0}} views</li>
@@ -39,8 +40,8 @@
       <a class="icon" title="Toggle sidebar" ng-click="showSidebar = false"><i class="icon-fullscreen"></i></a>
       <h3><a title="View on YouTube" href="http://youtube.com/watch?v={{video.video_id}}&toogles=0">{{video.title.$t}}</a></h3>
     </div>
-    <div class="flex-video {{video.media$group.yt$aspectRatio.$t}}">
+    <!-- <div class="flex-video {{video.media$group.yt$aspectRatio.$t}}">
       <iframe id="player" ng-show="video" src="{{video.embedurl}}" frameborder="0" allowfullscreen></iframe>
-    </div>
+    </div> -->
   </div>
 </div>
