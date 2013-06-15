@@ -1,7 +1,7 @@
 /**
  * The controller used when searching/browsing videos.
  */
-tooglesApp.controller('ListCtrl', ['$scope', '$routeParams', '$location', 'youtube', function($scope, $routeParams, $location, youtube) {
+tooglesApp.controller('ListCtrl', ['$scope', '$routeParams', '$location', 'youtube', 'queue', function($scope, $routeParams, $location, youtube, queue) {
   $scope.location = $location;
   $scope.searchsort = $location.search()['searchsort'] || false;
   $scope.searchduration = $location.search()['searchduration'] || false;
@@ -99,6 +99,9 @@ tooglesApp.controller('ListCtrl', ['$scope', '$routeParams', '$location', 'youtu
   }
   $scope.formatDuration = function(seconds) {
     return youtube.formatDuration(seconds);
+  }
+  $scope.addToQueue = function(video) {
+    queue.addToQueue(video);
   }
 
 }]);

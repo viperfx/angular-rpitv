@@ -1,2 +1,4 @@
 node_modules/
 views_bkp/
+config.js
+*.log

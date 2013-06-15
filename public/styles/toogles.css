@@ -154,6 +154,25 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
   right: 0px;
 }
+.stream {
+  float: left;
+  position: relative;
+  top: -35px;
+  background: rgb(34, 132, 161);
+  padding: 10px 25px;
+  color: white;
+  left: 0px;
+}
+.enqueue {
+  float: left;
+  position: relative;
+  top: -28px;
+  background: rgba(0,0,0,0.7);
+  padding: 6px 12px;
+  border-top: 1px solid gray;
+  color: white;
+  left: 0px;
+}
 
 .tabs.vertical li ul {
   padding-top:10px;

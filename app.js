@@ -6,6 +6,7 @@
 var express = require('express'),
   routes = require('./routes'),
   socket = require('./routes/socket.js'),
+  config = require('./config.js'),
   app = module.exports = express(),
   server = require('http').createServer(app)
 , https = require('https')
@@ -36,7 +37,6 @@ app.configure('production', function(){
 });
 
 // Routes
-
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
@@ -99,7 +99,6 @@ io.sockets.on('connection', function (socket) {
     url = "http://www.youtube.com/watch?v="+id;
     var runShell = new run_shell('youtube-dl',['-gf', '18/22/34/35/37', url],
       function (me, stdout) { 
-                //console.log(escape(stdout.read().toString().replace(/[\r\n]/g, "")));
                 me.stdout = stdout.read().toString().replace(/[\r\n]/g, "");
                 socket.emit("loading",{output: me.stdout});
                 omx.start(me.stdout);
@@ -110,11 +109,11 @@ io.sockets.on('connection', function (socket) {
   }
   if( data.action == "stream") {
     var id = data.video_id, 
-    url = "https://api.put.io/v2/files/"+id+"/mp4/stream/?oauth_token=Z7ARQSU2";
+    url = "https://api.put.io/v2/files/"+id+"/mp4/stream/?oauth_token="+config.settings.PUTIO_KEY;
     var options = {
       host: 'api.put.io',
       port: 443,
-      path: '/v2/files/'+id+'/stream?oauth_token=Z7ARQSU2',
+      path: '/v2/files/'+id+'/stream?oauth_token='+config.settings.PUTIO_KEY,
       method: 'GET'
     };
     
