@@ -127,7 +127,12 @@ io.sockets.on('connection', function (socket) {
       console.log('problem with request: ' + e.message);
     });
   }
-
+  if (data.action == "pause") {
+      omx.sendKey('p');
+  }
+  if (data.action == 'quit') {
+      omx.sendKey('q');
+  }
 });
 });
 
