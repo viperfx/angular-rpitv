@@ -13,7 +13,8 @@ var express = require('express'),
 , path = require('path')
 , io = require('socket.io').listen(server)
 , spawn = require('child_process').spawn
-, omx = require('omxcontrol');
+, omx = require('omxcontrol')
+, EventEmitter = require( "events" ).EventEmitter;
 
 
 // Configuration
@@ -100,11 +101,14 @@ io.sockets.on('connection', function (socket) {
     var runShell = new run_shell('youtube-dl',['-gf', '18/22/34/35/37', url],
       function (me, stdout) { 
                 me.stdout = stdout.read().toString().replace(/[\r\n]/g, "");
-                socket.emit("loading",{output: me.stdout});
+                socket.emit("video",{output: "loading"});
                 omx.start(me.stdout);
+                omx.ev.on('omx_status', function(data) {
+                    socket.emit("video",{status: data, video_id:id});
+                });
               }, 
               function (me) {
-                console.log("Finished");
+                socket.emit("video",{status: "now_playing", video_id:id});
               });
   }
   if( data.action == "stream") {

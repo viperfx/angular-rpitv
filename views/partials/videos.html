@@ -3,7 +3,7 @@
     <h3><span>{{video.title.$t}}</span></h3>
     <img ng-src="{{video.media$group.media$thumbnail[1].url}}" />
     <div class="duration">{{formatDuration(video.media$group.yt$duration.seconds)}}</div>
-    <a ng-href="{{getLink(video, $index)}}"><div class="stream">Play</div></a>
+    <a ng-click="streaming_toggle(video, $event)"><div class="stream">{{isPlaying(video)}}</div></a>
 	<a ng-click="addToQueue(video)" ng-hide="video.queued"><div class="enqueue">Enqueue</div></a>
     <div class="rating">
       <div class="like" style="width: {{100 * (video.gd$rating.average / 5)}}%;"></div>

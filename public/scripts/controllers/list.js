@@ -1,14 +1,15 @@
 /**
  * The controller used when searching/browsing videos.
  */
-tooglesApp.controller('ListCtrl', ['$scope', '$routeParams', '$location', 'youtube', 'queue', function($scope, $routeParams, $location, youtube, queue) {
+tooglesApp.controller('ListCtrl', ['$scope', '$routeParams', '$location', 'youtube', 'queue', 'socket', function($scope, $routeParams, $location, youtube, queue, socket) {
   $scope.location = $location;
   $scope.searchsort = $location.search()['searchsort'] || false;
   $scope.searchduration = $location.search()['searchduration'] || false;
   $scope.searchtime = $location.search()['searchtime'] || false;
   $scope.section = $location.path().split('/')[1];
   $scope.searchtype = $location.search()['searchtype'] || 'videos';
-
+  $scope.streaming = false;
+  $scope.nowPlaying = null;
   window.searchCallback = function(data) {
     if (!$scope.videos) {
       $scope.videos = data.feed.entry;
@@ -100,8 +101,40 @@ tooglesApp.controller('ListCtrl', ['$scope', '$routeParams', '$location', 'youtu
   $scope.formatDuration = function(seconds) {
     return youtube.formatDuration(seconds);
   }
+  $scope.isPlaying = function (video) {
+      if (video.media$group.yt$videoid.$t === $scope.nowPlaying){
+          return 'Playing'
+      }else{
+          return 'Play'
+      }
+  }
   $scope.addToQueue = function(video) {
     queue.addToQueue(video);
   }
-
+  $scope.streaming_toggle = function(video, event) {
+    //console.log(vid);
+    if ($scope.streaming == false){
+        socket.emit('video', {action:'play', video_id:video.media$group.yt$videoid.$t});
+        //angular.element(event.target).html('Loading');
+        //$scope.nowPlaying = video.media$group.yt$videoid.$t;
+        queue.addToQueue(video);
+    }else{
+        socket.emit('video', {action:'pause', video_id:video.media$group.yt$videoid.$t});
+    }
+  }
+  socket.on('video', function(data){
+      if (data.status == 'now_playing') {
+          $scope.nowPlaying = data.video_id;
+      }
+      if (data.status == 'exit'){
+          //omx quit, play next vid
+          //var q = queue.getQueue();
+          queue.removeFromQueue(queue.getVideo(data.video_id));
+          socket.emit('video', {action:'play', video_id:queue.getQueue().media$group.yt$videoid.$t});
+      }
+  });
+  $scope.stop_stream = function() {
+      socket.emit('video', {action:'quit', video_id:$routeParams.id})
+      $scope.streaming = false;
+  }
 }]);

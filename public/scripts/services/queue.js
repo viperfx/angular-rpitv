@@ -25,7 +25,13 @@ tooglesApp.service('queue', function(local) {
 	var inQueue = function (video) {
 		return hashOfQueued[video.media$group.yt$videoid.$t] === true;
 	}
-
+    this.getVideo = function(video_id) {
+        for (var i = queuedVideos.length -1; i >= 0; i--){
+            if (video_id === queuedVideos[i].media$group.yt$videoid.$t){
+                return queuedVideos[i];
+            }
+        }
+    }
 	this.removeFromQueue = function (video) {
 		if (!inQueue(video)) {
 			return;
